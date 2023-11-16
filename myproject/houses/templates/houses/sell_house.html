@@ -1,0 +1,31 @@
+<html>
+<title> House App : Sell House</title>
+
+<body>
+
+    <form action="{% url 'houses:sell_process' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+        <legend><h1>Sell House</h1></legend>
+            {% comment %}Align text boxes {% endcomment %}
+
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id"/><br>
+
+            <label for="financing_option">financing option:</label>
+            <input type="text" id="financing_option" name="financing_option"/><br>
+
+            <label for="downpayment_amount">downpayment amount:</label>
+            <input type="text" id="downpayment_amount" name="downpayment_amount"/><br>
+            
+            <label for="broker_name">broker name:</label>
+            <input type="text" id="broker_name" name="broker_name"/><br>
+
+            <label for="commission_percent">commission percent:</label>
+            <input type="text" id="commission_percent" name="commission_percent"/><br>
+ 
+        </fieldset>
+    <input type="submit" value="Submit">
+
+</body>
+</html>

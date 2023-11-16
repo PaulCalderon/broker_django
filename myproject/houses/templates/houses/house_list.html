@@ -1,0 +1,18 @@
+<html>
+<title> House App : House List</title>
+
+<body>
+    
+    <form action="{% url 'houses:edit_process' %}" method="post">
+<ul>
+{% for house in houselist %}
+    <li> {{ house.id }} | {{house.location_city}} | {{house.developer}} | {{house.price}} | {{house.reserved}}</li>
+{% endfor %}
+</ul>
+
+
+
+
+
+</body>
+</html>

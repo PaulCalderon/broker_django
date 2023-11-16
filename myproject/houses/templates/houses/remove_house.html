@@ -1,0 +1,28 @@
+<html>
+<title> House App : House List</title>
+
+<body>
+
+
+<ul>
+<form action ="{% url 'houses:remove_process' %}" method ="post">
+{% csrf_token %}
+{% for house in houselist %}
+    <li> {{ house.id }} | {{house.location_city}} | {{house.developer}} | {{house.price}} | 
+        
+            <input type="checkbox" id="{{ house.id }}" name="remove" value="{{ house.id }}"/>
+            <label for="{{ house.id }}">Remove?</label>
+
+        
+    </li>
+{% endfor %}
+</ul>
+
+<input type="submit" value="Submit" />
+</form>
+
+
+
+
+</body>
+</html>

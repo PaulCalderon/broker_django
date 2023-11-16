@@ -1,0 +1,36 @@
+<html>
+<title> House App : Change House</title>
+
+<body>
+
+    <form action="{% url 'houses:edit_process' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+        <legend><h1>Add/Edit Houses</h1></legend>
+            {% comment %}Align text boxes {% endcomment %}
+
+            <label for="id">ID(if for edit):</label>
+            <input type="text" id="id" name="id"/><br>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location"/><br>
+            
+            <label for="developer">Developer:</label>
+            <input type="text" id="developer" name="developer"/><br>
+
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price"/><br>
+
+            <fieldset>
+            <legend>Reserve the house</legend>
+                <input type="radio" id="True" name="reserve" value="True">
+                <label for="True">Yes</label><br>
+                <input type="radio" id="False" name="reserve" value="False">
+                <label for="False">No</label><br>
+            </fieldset>
+ 
+        </fieldset>
+    <input type="submit" value="Submit">
+
+</body>
+</html>

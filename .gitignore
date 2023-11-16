@@ -1,0 +1,3 @@
+venv/
+myproject/houses/__pycache__
+*.pyc

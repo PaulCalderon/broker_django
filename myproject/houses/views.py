@@ -58,20 +58,25 @@ def edit_process(request): #check ID if empty. Empty = Edit, Not Empty = Add
 
     if request.POST["id"]: #ID data means EDIT house   #TODO Bad implementation 
         house_data = HouseList.objects.get(pk=request.POST["id"])
-        if request.POST["location"]:
-            house_data.location_city = request.POST["location"]
-        if request.POST["developer"]:
-            house_data.developer = request.POST["developer"]
-        if request.POST["price"]:
-            house_data.price = int(request.POST["price"])
-        if request.POST["reserve"]:
-            if house_data.reserved is True:  #checks if house is already reserved
-                return HttpResponse("House is already reserved.", status = 409)
-            if request.POST["reserve"] == 'True':
-                reserve = True
-            else: 
-                reserve = False
-            house_data.reserved = reserve
+        
+        if 'location' in request.POST:
+            if request.POST["location"]:
+                house_data.location_city = request.POST["location"]
+        if 'developer' in request.POST:
+            if request.POST["developer"]:
+                house_data.location_city = request.POST["developer"]
+        if 'price' in request.POST:
+            if request.POST["price"]:
+                house_data.location_city = request.POST["price"]
+        if 'reserve' in request.POST:
+            if request.POST["reserve"]:
+                if house_data.reserved is True:  #checks if house is already reserved
+                    return HttpResponse("House is already reserved.", status = 409)
+                if request.POST["reserve"] == 'True':
+                    reserve = True
+                else: 
+                    reserve = False
+                house_data.reserved = reserve
         house_data.save()
         #return HttpResponse(house_data)
         return HttpResponseRedirect(reverse("houses:home"))

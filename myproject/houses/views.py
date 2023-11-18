@@ -35,11 +35,11 @@ def list_house(request):
         return HttpResponse(template.render(context, request))
         #return HttpResponse("wrong")
 
-def add_house(request):
-    """
-    Has post form for adding house entry
-    """
-    pass
+# def add_house(request):
+#     """
+#     Has post form for adding house entry
+#     """
+#     pass
 
 def edit_house(request): #maybe same page as above and will check for ID to determine if edit action
     """
@@ -56,37 +56,38 @@ def edit_process(request): #check ID if empty. Empty = Edit, Not Empty = Add
     if ModelValidators.check_houselist(request.POST["location"],request.POST["developer"], (request.POST["price"])):
         return HttpResponseNotFound("Input is invalid.")
 
-    if request.POST["id"]: #ID data means EDIT house   #TODO Bad implementation 
-        house_data = HouseList.objects.get(pk=request.POST["id"])
-        
-        if 'location' in request.POST:
-            if request.POST["location"]:
-                house_data.location_city = request.POST["location"]
-        if 'developer' in request.POST:
-            if request.POST["developer"]:
-                house_data.location_city = request.POST["developer"]
-        if 'price' in request.POST:
-            if request.POST["price"]:
-                house_data.location_city = request.POST["price"]
-        if 'reserve' in request.POST:
-            if request.POST["reserve"]:
-                if house_data.reserved is True:  #checks if house is already reserved
-                    return HttpResponse("House is already reserved.", status = 409)
-                if request.POST["reserve"] == 'True':
-                    reserve = True
-                else: 
-                    reserve = False
-                house_data.reserved = reserve
-        house_data.save()
-        #return HttpResponse(house_data)
-        return HttpResponseRedirect(reverse("houses:home"))
+    if 'id' in request.POST: #ID data means EDIT house   #TODO Bad implementation 
+        if request.POST['id']:
+            house_data = HouseList.objects.get(pk=request.POST["id"])
+            
+            if 'location' in request.POST:
+                if request.POST["location"]:
+                    house_data.location_city = request.POST["location"]
+            if 'developer' in request.POST:
+                if request.POST["developer"]:
+                    house_data.location_city = request.POST["developer"]
+            if 'price' in request.POST:
+                if request.POST["price"]:
+                    house_data.location_city = request.POST["price"]
+            if 'reserve' in request.POST:
+                if request.POST["reserve"]:
+                    if house_data.reserved is True:  #checks if house is already reserved
+                        return HttpResponse("House is already reserved.", status = 409)
+                    if request.POST["reserve"] == 'True':
+                        reserve = True
+                    else: 
+                        reserve = False
+                    house_data.reserved = reserve
+            house_data.save()
+            #return HttpResponse(house_data)
+            return HttpResponseRedirect(reverse("houses:home"))
 
-    else: #No ID data means ADD house
-        
-        HouseList.objects.create(location_city=request.POST["location"], developer=request.POST["developer"], price=int(request.POST["price"]))
-        return HttpResponseRedirect(reverse("houses:home"))   #should redirect to sucess page and asks if they want to go to home
+        else: #No ID data means ADD house
+            
+            HouseList.objects.create(location_city=request.POST["location"], developer=request.POST["developer"], price=int(request.POST["price"]))
+            return HttpResponseRedirect(reverse("houses:home"))   #should redirect to sucess page and asks if they want to go to home
 
-
+#remove_house.html
 def remove_house(request): #can be merge with show house list and display the delete function there
     mydata = HouseList.objects.all()
     template = loader.get_template("houses/remove_house.html")
@@ -100,6 +101,7 @@ def remove_house(request): #can be merge with show house list and display the de
         return HttpResponse(template.render(context, request))
         #return HttpResponse("wrong")
 
+#remove_house.html submit form
 def remove_process(request):
     """
     receives list of house id(s) to be removed
@@ -131,15 +133,16 @@ def sell_process(request):
         'financing_option' : request.POST['financing_option'],
 
     }   #dictionary containing arguments for create()
+    if 'broker_name' in request.POST:
+        if request.POST['broker_name']:  #so bad
+            dict_argument['broker_name'] = request.POST['broker_name']
+    if 'commission_percent' in request.POST:
+        if request.POST['commission_percent']:
 
-    if request.POST['broker_name']:  #so bad
-        dict_argument['broker_name'] = request.POST['broker_name']
-    if request.POST['commission_percent']:
-
-        if float(request.POST['commission_percent']) > 100:
-            return HttpResponse("Commission percent is invalid.", status = 409)
-        
-        dict_argument['commission_percent'] = request.POST['commission_percent']
+            if float(request.POST['commission_percent']) > 100:
+                return HttpResponse("Commission percent is invalid.", status = 409)
+            
+            dict_argument['commission_percent'] = request.POST['commission_percent']
 
     
     house_data = HouseList.objects.get(pk=request.POST["id"])   

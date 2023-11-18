@@ -71,7 +71,6 @@ class BrokerOperationsTests(TestCase):
         'location' : 'test',
         'developer' : 'test',
         'price' : '100',
-        'reserve' : ''
         }
         response = self.client.post(reverse('houses:edit_process'), houselist_data)
         self.assertEqual(response.status_code, 302)
